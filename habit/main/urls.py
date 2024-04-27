@@ -14,5 +14,4 @@ urlpatterns = [
   path("myhabit/", views.myhabit, name="myhabit"), 
   path("mark_habit_completed/<int:habit_id>/",views.mark_habit_completed, name="mark_habit_completed"),
   
-  path('trigger-habit-completion-update/', views.trigger_habit_completion_update, name='trigger_habit_completion_update'),
 ]

@@ -6,7 +6,6 @@ from .models import Habit
 from django.http import HttpResponse, JsonResponse
 import datetime
 from django.views.decorators.http import require_POST
-from .tasks import update_habit_completion_statuses
 
 
 # Create your views here.
@@ -155,9 +154,5 @@ def mark_habit_completed(request,habit_id):
         return JsonResponse({'success': False, 'error': 'Habit not found'})
 
       
-def trigger_habit_completion_update(request):
-    update_habit_completion_statuses.delay()
-
-    return HttpResponse("Habit completion statuses update triggered successfully!")
 
 
