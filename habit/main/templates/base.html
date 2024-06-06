@@ -87,8 +87,12 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
+      //marking habit as completed
+     /* document.addEventListener('DOMContentLoaded', function() {
         var completeButtons = document.querySelectorAll('.complete-habit');
     
         completeButtons.forEach(function(button) {
@@ -125,7 +129,7 @@
               alert('Error occurred while marking habit as completed');
             });
           });
-        });
+        });*/
     
         function getCSRFToken() {
           var csrfToken = null;
@@ -139,8 +143,8 @@
           return csrfToken;
         }
       });
-    
-    
+
+  
   </script>
   </body>
 </html>

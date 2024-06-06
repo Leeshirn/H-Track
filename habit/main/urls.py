@@ -12,6 +12,8 @@ urlpatterns = [
   path("update_habit/<int:pk>", views.update_habit, name="update_habit"), 
   path("about/", views.about, name="about"), 
   path("myhabit/", views.myhabit, name="myhabit"), 
-  path("mark_habit_completed/<int:habit_id>/",views.mark_habit_completed, name="mark_habit_completed"),
-  
+  # path("mark_habit_completed/<int:habit_id>/",views.mark_habit_completed, name="mark_habit_completed"),
+  path("mark_habit/<int:pk>", views.mark_habit, name="mark_habit"), 
+  path(" track_progress/<int:pk>", views. track_progress, name=" track_progress"), 
+
 ]
