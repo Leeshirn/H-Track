@@ -41,7 +41,7 @@ def login_user(request):
         login(request,user)
         messages.success(request, 'You have been logged in')
         return redirect('myhabit')
-    else:
+    else: 
       messages.success(request,"There was an error logging in, please try again")
       return redirect('login_user')
   else:
@@ -135,7 +135,7 @@ def myhabit(request):
     habits = Habit.objects.filter(user=request.user)
     return render(request, 'myhabit.html', {'habits':habits})
        
-'''
+
 def mark_habit_completed(request,habit_id):
     try:
         # Retrieve the habit object by ID (ensure it exists)
@@ -151,10 +151,10 @@ def mark_habit_completed(request,habit_id):
             return JsonResponse({'success': True, 'message': 'Habit already marked as completed'})
 
     except Habit.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Habit not found'})'''
+        return JsonResponse({'success': False, 'error': 'Habit not found'})
 
       
-def mark_habit(request, habit_id):
+'''def mark_habit(request, habit_id):
     """Marks a habit as completed, creating a HabitCompletion object."""
 
     habit = Habit.objects.get(id=habit_id, user=request.user)  # Ensure user owns habit
@@ -166,15 +166,15 @@ def mark_habit(request, habit_id):
             completion.habit = habit
             completion.save()
             messages.success(request, 'Habit marked completed!')
-            return redirect('habit_list')  # Redirect to habit list (assuming it shows habits)
+            return redirect('habit_record')  # Redirect to habit list (assuming it shows habits)
         else:
             messages.error(request, 'Error marking habit as completed. Please check the form.')
     else:
-        form = HabitCompletionForm(initial={'date': date.today()})  # Pre-populate date
-
+        form = HabitCompletionForm(initial={'date': date.today()})  # Pre-populate date'''
 
 def track_progress(request, habit_id):
     habit = Habit.objects.get(id=habit_id, user=request.user)
     completions = HabitCompletion.objects.filter(habit=habit).order_by('date')
-    return render(request, 'habits/myhabit.html', {'habit': habit, 'completions': completions})
+    return render(request, 'myhabit.html', {'habit': habit, 'completions': completions})
+
 

@@ -17,7 +17,6 @@
             <th scope="col">Category</th>
             <th scope="col">Description</th>
             <th scope="col">Start Date</th>
-            <th scope="col">Frequency</th>
             <!--<th scope="col">Status</th>-->
            
             
@@ -31,14 +30,13 @@
             <td>{{habit.category}}</td>
             <td>{{habit.description}}</td>
             <td>{{habit.start_date}}</td>
-            <td>{{habit.frequency}}</td>
             
     
-          <td><!--{% if habit.completed %}
+          <td>{% if habit.completed %}
                   <span style="color: green;">Completed</span>
                 {% else %}
                   <button class="complete-habit" data-habit-id="{{ habit.id }}">Mark as Completed</button>
-                {% endif %}-->  
+                {% endif %}  
 
               </td>
 
@@ -46,26 +44,16 @@
         {% endfor %}
 
       {% endif %}
+      
 
       </tr>
+      
       
     </tbody>
   </table>
 
-  {%else%}
-  <p>No records</p>
 
-{% endif %}
-
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Mark as Completed</button>
-</form>
-
-
-<p>Track Progress for {{ habit.name }}</p>
+<p>Track Progress for {{ habit.name}}</p>
 <ul>
     {% for completion in completions %}
     <li>{{ completion.date }}:
@@ -78,5 +66,9 @@
     {% endfor %}
 </ul>
 
+  {%else%}
+  <p>No records</p>
 
-{% endblock %}
+{% endif %}
+
+{% endblock %} 

@@ -35,21 +35,11 @@ class AddRecordForm(forms.ModelForm):
   name= forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={'placeholder':'Habit Name', "class":"form-control"}), label="")
   category= forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={'placeholder':'Category', "class":"form-control"}), label="")
   description= forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={'placeholder':'Description', "class":"form-control"}), label="")
-  frequency= forms.ChoiceField(choices=Habit.HABIT_FREQUENCY_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}),label = "Frequency")
-  custom_days = forms.ModelMultipleChoiceField(
-        queryset=Habit.objects.all(),
-        required=False,
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
-        label="Custom Days"
-    )
+
   
   class Meta:
       model = Habit
-      fields = ('name', 'category','description','frequency', 'custom_days')
-      
-      
-
-
+      fields = ('name', 'category','description')
 
 class HabitCompletionForm(forms.ModelForm):
     class Meta:
