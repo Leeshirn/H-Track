@@ -1,74 +1,65 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
 
-  {% if user.is_authenticated %}
+{% if user.is_authenticated %}
   
-  <h1>{{user.username}}</h1>
+  <h1>{{ user.username }}</h1>
 
   <table class="table table-hover table-bordered table-striped">
-     
-        {%if habits %}
-        <thead>
-          <tr class="table-secondary">
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Category</th>
-            <th scope="col">Description</th>
-            <th scope="col">Start Date</th>
-            <!--<th scope="col">Status</th>-->
-           
-            
-          </tr>
-        </thead> 
-        <tbody>
-        {% for habit in habits %}
-         <tr>
-            <td><a href="{% url 'habit' habit.id %}" >{{habit.id}}</a></td>
-            <td>{{habit.name}}</td>
-            <td>{{habit.category}}</td>
-            <td>{{habit.description}}</td>
-            <td>{{habit.start_date}}</td>
-            
-    
-          <td>{% if habit.completed %}
-                  <span style="color: green;">Completed</span>
-                {% else %}
-                  <button class="complete-habit" data-habit-id="{{ habit.id }}">Mark as Completed</button>
-                {% endif %}  
-
-              </td>
-
-          </tr>
-        {% endfor %}
-
-      {% endif %}
-      
-
+    {% if habits %}
+    <thead>
+      <tr class="table-secondary">
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Category</th>
+        <th scope="col">Description</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Status</th>
       </tr>
-      
-      
+    </thead> 
+    <tbody id="habitTableBody">
+      {% for habit in habits %}
+      <tr>
+        <td><a href="{% url 'habit' habit.id %}">{{ habit.id }}</a></td>
+        <td>{{ habit.name }}</td>
+        <td>{{ habit.category }}</td>
+        <td>{{ habit.description }}</td>
+        <td>{{ habit.start_date }}</td>
+        <td>
+          {% if habit.completed %}
+            <span style="color: green;">Completed</span>
+          {% else %}
+            <button class="complete-habit" data-habit-id="{{ habit.id }}">Mark as Completed</button>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
     </tbody>
+    {% endif %}
   </table>
 
+  <div id="habitSummary">
+    <h2>Incomplete Habits</h2>
+    <ul id="incompleteHabitsList">
+      {% for habit in habits %}
+        {% if not habit.completed %}
+          <li>{{ habit.name }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
 
-<p>Track Progress for {{ habit.name}}</p>
-<ul>
-    {% for completion in completions %}
-    <li>{{ completion.date }}:
-      {% if completion.completed %}
-          Done
-      {% else %}
-          Not done
-      {% endif %}
-      </li>
-    {% endfor %}
-</ul>
+    <h2>Completed Habits</h2>
+    <ul id="completedHabitsList">
+      {% for habit in habits %}
+        {% if habit.completed %}
+          <li>{{ habit.name }} (Completed {{ habit.completed_count }} times)</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
 
-  {%else%}
-  <p>No records</p>
-
+  
 {% endif %}
 
-{% endblock %} 
+{% endblock %}

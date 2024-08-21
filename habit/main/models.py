@@ -25,6 +25,7 @@ class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
     date = models.DateField()
     completed = models.BooleanField(default=False)
+    count = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ('habit', 'date')

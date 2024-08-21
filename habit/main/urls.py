@@ -13,7 +13,7 @@ urlpatterns = [
   path("about/", views.about, name="about"), 
   path("myhabit/", views.myhabit, name="myhabit"), 
   path("mark_habit_completed/<int:habit_id>/",views.mark_habit_completed, name="mark_habit_completed"),
-  
-  path(" track_progress/<int:pk>", views. track_progress, name=" track_progress"), 
+  path('toggle-habit/<int:habit_id>/', views.toggle_habit, name='toggle_habit'),
+  #path(" track_progress/<int:pk>", views. track_progress, name=" track_progress"), 
 
 ]

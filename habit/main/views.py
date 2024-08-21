@@ -6,7 +6,8 @@ from .models import Habit, HabitCompletion
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from datetime import date
-
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -136,22 +137,44 @@ def myhabit(request):
     return render(request, 'myhabit.html', {'habits':habits})
 
 def mark_habit_completed(request, habit_id):
+  if request.method == 'POST':
     try:
         habit = get_object_or_404(Habit, id=habit_id, user=request.user)
-        today = date.today()
-        completion, created = HabitCompletion.objects.get_or_create(habit=habit, date=today)
-        if not completion.completed:
-            completion.completed = True
-            completion.save()
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': True, 'message': 'Habit already marked as completed'})
-    except Habit.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Habit not found'})
+        habit.completed = True
+        habit.completed_count += 1
+        habit.save()
+        return JsonResponse({
+                'success': True,
+                'completed_count': habit.completed_count,
+            })
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+  return JsonResponse({
+          'success': True,
+          'completed_count': habit.completed_count,
+      })
+      
+    #try:
+''' habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+    today = date.today()
+    completion, created = HabitCompletion.objects.get_or_create(habit=habit, date=today)
+    if not completion.completed:
+        completion.completed = True
+        completion.save()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': True, 'message': 'Habit already marked as completed'})'''
+  
 
-def track_progress(request, habit_id):
-    habit = Habit.objects.get(id=habit_id, user=request.user)
-    completions = HabitCompletion.objects.filter(habit=habit).order_by('date')
-    return render(request, 'progress.html', {'habit': habit, 'completions': completions})
+#except Habit.DoesNotExist:
+    #return JsonResponse({'success': False, 'error': 'Habit not found'})
+
+def toggle_habit(request, habit_id):
+  habit = Habit.objects.get(id=habit_id)
+  habit.completed = not habit.completed
+  habit.count += 1
+  habit.save()
+  return JsonResponse({'success': True, 'completed': habit.completed, 'count': habit.count})
+
 
 # other view functions
