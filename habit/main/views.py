@@ -134,47 +134,24 @@ def myhabit(request):
   # Filter habits for the logged-in user
     habits = Habit.objects.filter(user=request.user)
     return render(request, 'myhabit.html', {'habits':habits})
-       
 
-def mark_habit_completed(request,habit_id):
+def mark_habit_completed(request, habit_id):
     try:
-        # Retrieve the habit object by ID (ensure it exists)
-        habit = get_object_or_404(Habit, id=habit_id)
-
-        if not habit.completed:
-            habit.completed = True
-            habit.save()
-
-
+        habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+        today = date.today()
+        completion, created = HabitCompletion.objects.get_or_create(habit=habit, date=today)
+        if not completion.completed:
+            completion.completed = True
+            completion.save()
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': True, 'message': 'Habit already marked as completed'})
-
     except Habit.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Habit not found'})
-
-      
-'''def mark_habit(request, habit_id):
-    """Marks a habit as completed, creating a HabitCompletion object."""
-
-    habit = Habit.objects.get(id=habit_id, user=request.user)  # Ensure user owns habit
-
-    if request.method == 'POST':
-        form = HabitCompletionForm(request.POST)
-        if form.is_valid():
-            completion = form.save(commit=False)  # Don't save yet
-            completion.habit = habit
-            completion.save()
-            messages.success(request, 'Habit marked completed!')
-            return redirect('habit_record')  # Redirect to habit list (assuming it shows habits)
-        else:
-            messages.error(request, 'Error marking habit as completed. Please check the form.')
-    else:
-        form = HabitCompletionForm(initial={'date': date.today()})  # Pre-populate date'''
 
 def track_progress(request, habit_id):
     habit = Habit.objects.get(id=habit_id, user=request.user)
     completions = HabitCompletion.objects.filter(habit=habit).order_by('date')
-    return render(request, 'myhabit.html', {'habit': habit, 'completions': completions})
+    return render(request, 'progress.html', {'habit': habit, 'completions': completions})
 
-
+# other view functions
