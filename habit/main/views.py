@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth import authenticate,login, logout 
 from django.contrib import messages 
-from .forms import SignUpForm,AddRecordForm, HabitCompletionForm
-from .models import Habit, HabitCompletion
+from .forms import SignUpForm,AddRecordForm
+from .models import Habit
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from datetime import date
@@ -44,7 +44,7 @@ def login_user(request):
         return redirect('myhabit')
     else: 
       messages.success(request,"There was an error logging in, please try again")
-      return redirect('login_user')
+      return redirect('login')
   else:
    return render(request,'login_users.html',{})
 
@@ -140,13 +140,14 @@ def mark_habit_completed(request, habit_id):
   if request.method == 'POST':
     try:
         habit = get_object_or_404(Habit, id=habit_id, user=request.user)
-        habit.completed = True
-        habit.completed_count += 1
-        habit.save()
-        return JsonResponse({
-                'success': True,
-                'completed_count': habit.completed_count,
-            })
+        
+        if not habit.completed:  # Ensure that the habit isn't already marked as completed
+          habit.completed = True
+          habit.completed_count += 1
+          habit.save()
+          return JsonResponse({'success': True, 'completed_count': habit.completed_count})
+        else:
+          return JsonResponse({'success': False, 'error': 'Habit already completed today'})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
   return JsonResponse({
@@ -172,7 +173,8 @@ def mark_habit_completed(request, habit_id):
 def toggle_habit(request, habit_id):
   habit = Habit.objects.get(id=habit_id)
   habit.completed = not habit.completed
-  habit.count += 1
+  if habit.completed:
+    habit.completed_count += 1
   habit.save()
   return JsonResponse({'success': True, 'completed': habit.completed, 'count': habit.count})
 

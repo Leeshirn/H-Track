@@ -1,17 +1,14 @@
 from django.contrib.auth.forms import UserCreationForm 
 from django.contrib.auth.models import User 
 from django import forms 
-from .models import Habit,HabitCompletion
+from .models import Habit
 
 class SignUpForm(UserCreationForm):
-  email = forms.EmailField(label="",widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
-  first_name = forms.CharField(label="", max_length="100", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
-  last_name = forms.CharField(label="",max_length="100", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
-  class Meta:
-    model = User
-    fields = ('username','first_name', 'last_name','email', 'password1', 'password2')
-    
-    def __init__(self, *args, **kwargs):
+  
+   class Meta:
+      model = User
+      fields = ('username', 'password1', 'password2')
+   def __init__(self, *args, **kwargs):
       super(SignUpForm, self).__init__(*args, **kwargs)
 
       self.fields['username'].widget.attrs['class'] = 'form-control'
@@ -41,7 +38,7 @@ class AddRecordForm(forms.ModelForm):
       model = Habit
       fields = ('name', 'category','description')
 
-class HabitCompletionForm(forms.ModelForm):
+'''class HabitCompletionForm(forms.ModelForm):
     class Meta:
         model = HabitCompletion
-        fields = ['date', 'completed']
+        fields = ['date', 'completed']'''

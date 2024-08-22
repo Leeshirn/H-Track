@@ -17,18 +17,11 @@ class Habit(models.Model):
     
     start_date = models.DateTimeField(auto_now_add=True)
     
-    
-    def __str__(self):
-      return (f"{self.name}-{self.category}-{self.description}-{self.start_date}-{self.user}")
-    
-class HabitCompletion(models.Model):
-    habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
-    date = models.DateField()
+
     completed = models.BooleanField(default=False)
-    count = models.IntegerField(default=0)
+    completed_count = models.IntegerField(default=0)
 
-    class Meta:
-        unique_together = ('habit', 'date')
-
+    
     def __str__(self):
-        return f"{self.habit.name} - {self.date} - {self.completed}"
+      return (f"{self.name}-{self.category}-{self.description}-{self.start_date}-{self.user} - {self.completed}")
+    
