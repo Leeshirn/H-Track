@@ -5,8 +5,9 @@ Habit Hub is  a personalizd companion designed to help you cultivate positive ha
 Features at Your Fingertips:
 Habit Haven: Effortlessly add, edit, and remove habits as your goals evolve.
 Daily Check-Ins: Track your progress with a simple tap – completed, missed, or somewhere in between. Every step counts!
-Visual Inspiration : Stay motivated with clear charts and graphs that showcase your progress over time. See your dedication blossom!
 Account Registration: create you own account by registering then log in so that you can access various features. You can also log out once you are done updating your habits.
+refresh once done to log in the progress
+
 
 Tips for Habit-Building Success:
 Start Small, Dream Big: Begin with achievable goals, gradually building upon them as you progress.
